@@ -31,9 +31,10 @@ class Session(models.Model):
         ordering = ['-date',]
 
     def __str__(self):
-        return '{} {} - {} {}'.format(
+        return '{} {} - {} {} day {}'.format(
             self.program_name,
             self.program_phase,
             self.name,
-            self.date.strftime('%d-%m-%Y')
+            self.date.strftime('%d-%m-%Y'),
+            self.week_order
         )
