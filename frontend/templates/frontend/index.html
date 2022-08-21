@@ -1,8 +1,29 @@
-{% extends 'frontend/base.html' %} {% block content %} {% for obj in objects %}
-<p>{{ obj }}</p>
-{% endfor %}
+{% extends 'frontend/base.html' %} {% block content %}
+<div class="justified-row">
+    <p>viewing from {{ start }} to {{ end }} </p>
+</div>
+<div class="justified-row">
+    <a href="/?week_day={{ previous_week_day }}">Previous week</a>
+    <span>
+        {% if link_current_week %}<a href="/"><< view current week >>{% endif %}</a>
+    </span>
+    
+    <a href="/?week_day={{ next_week_day }}">Next week</a>
+</div>
+<div class="justified-row">
+    {% for obj in objects %}
+        <div class="content-box">
+            <p class="name wo{{ obj.workout_type }}">{{ obj.name }}</p>
+            <p class="wo">{{ obj.program_name }} - {{ obj.program_phase }}</p>
+            <p class="description"><pre>{{ obj.description }}</pre></p>
+            {% if obj.workout_type != '2' %}
+                <p class="line"><strong>Time start/end:</strong> {{ obj.time_start_end }} ({{ obj.duration }} h:m:s)</p>
+                <p class="line">{{ obj.total_sets }} sets / {{ obj.total_reps }} reps</p>
+                <p class="line"><strong>Weight:</strong> {{ obj.total_weight }}kg (<strong>avg.</strong> {{ obj.average_weight }}kg)</p>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
 
-<a href="">Current week</a>
-<a href="?week_day={{ next_week_day }}">Next week</a>
-<a href="?week_day={{ previous_week_day }}">Next week</a>
+
 {% endblock %}

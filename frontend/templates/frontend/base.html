@@ -2,6 +2,62 @@
 <html>
   <head>
     <title>{{ TITLE }}</title>
+    <script
+      src="https://kit.fontawesome.com/8f41753165.js"
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        font-smooth: always;
+        text-transform: uppercase;
+      }
+      body {
+        font-family: -apple-system, system-ui, Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        margin: 0;
+        color: #444444;
+      }
+      .justified-row {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 15px;
+      }
+
+      .content-box {
+        border: 1px solid black;
+        padding: 5px;
+      }
+      .name {
+        font-size: 16px;
+        text-align: center;
+        font-weight: bold;
+      }
+      .wo {
+        width: 100%;
+        text-align: center;
+        font-style: italic;
+        background-color: #f4f0ec;
+        text-transform: lowercase;
+      }
+      .wo0 {
+        background-color: #ffcccb;
+      }
+      .wo1 {
+        background-color: #add8e6;
+      }
+      .wo2 {
+        background-color: #90ee90;
+      }
+      .description {
+        width: 100%;
+        margin: 5px 0;
+        padding: 0;
+      }
+      .line {
+      }
+    </style>
   </head>
   <body>
     {% block content %}{% endblock content %}

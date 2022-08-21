@@ -24,10 +24,13 @@ class Session(models.Model):
     total_weight = models.FloatField(null=True, blank=True)
 
     description = models.TextField(null=True, blank=True)
+    class Meta:
+        ordering = ['date',]
 
     def __str__(self):
-        return '{} {} - {}'.format(
+        return '{} {} - {} {}'.format(
             self.program_name,
             self.program_phase,
-            self.name
+            self.name,
+            self.date.strftime('%d-%m-%Y')
         )

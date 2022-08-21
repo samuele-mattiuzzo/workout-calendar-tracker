@@ -1,3 +1,5 @@
+import pdb
+
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.template import loader
@@ -10,33 +12,49 @@ CONTEXT = {
     "KEYWORDS": "fitness, workout, weightlifting, tracker, stats, list"
 }
 
+
+
+def _get_week(week_day):
+    start, end = _get_week_by_day(week_day)
+    return (start, end)
+
 def _get_week_by_day(dt):
     start = dt - timezone.timedelta(days=dt.weekday())
     end = start + timezone.timedelta(days=6)
     return (start, end)
 
-def _get_week(week_day=None):
-    week_day = week_day if week_day is not None else timezone.now()
-    start, end = _get_week_by_day(week_day)
-    return (start, end)
+def _get_previous_week_start(dt):
+    previous_week_date = dt - timezone.timedelta(days=7)
+    return _get_week(previous_week_date)[0]
 
+def _get_next_week_start(dt):
+    next_week_date = dt + timezone.timedelta(days=7)
+    return _get_week(next_week_date)[0]
+
+def _date_to_str_format(dt):
+    return dt.strftime("%d-%m-%Y")
 
 def index(request):
     template = loader.get_template('frontend/index.html')
     ctx = CONTEXT.copy()
 
-    start, end = _get_week(request.GET.get('week_day', None))
-    next_week_day = previous_week_day = None
-    objects = Session.objects.filter(
-        date__gte=start, date__lte=end
-    )
+    week_day = request.GET.get('week_day', None)
+    link_current_week = False if week_day is None else True
+    week_day = timezone.now() if week_day is None else timezone.datetime.strptime(week_day, "%d-%m-%Y").date()
+    
+    start, end = _get_week(week_day)
 
     ctx.update({
         'message': None,
-        'objects': objects,
-        'next_week_day': next_week_day,
-        'previous_week_day': previous_week_day,
-        'can_edit': request.user.is_authenticated
+        'can_edit': request.user.is_authenticated,
+        'link_current_week': link_current_week,
+        'start': _date_to_str_format(start),
+        'end': _date_to_str_format(end),
+        'next_week_day': _date_to_str_format(_get_next_week_start(start)),
+        'previous_week_day': _date_to_str_format(_get_previous_week_start(start)),
+        'objects': Session.objects.filter(
+            date__date__gte=start, date__date__lte=end
+        ).order_by('date')
     })
     return HttpResponse(template.render(ctx, request))
 
