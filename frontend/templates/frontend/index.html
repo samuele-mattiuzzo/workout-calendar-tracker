@@ -15,12 +15,13 @@
         <div class="content-box">
             <p class="name wo{{ obj.workout_type }}">{{ obj.name }}</p>
             <p class="wo">{{ obj.program_name }} - {{ obj.program_phase }}</p>
-            <p class="description"><pre>{{ obj.description }}</pre></p>
             {% if obj.workout_type != '2' %}
-                <p class="line"><strong>Time start/end:</strong> {{ obj.time_start_end }} ({{ obj.duration }} h:m:s)</p>
+                <p class="line"><strong>Time:</strong> {{ obj.time_start_end }} ({{ obj.duration }})</p>
                 <p class="line">{{ obj.total_sets }} sets / {{ obj.total_reps }} reps</p>
                 <p class="line"><strong>Weight:</strong> {{ obj.total_weight }}kg (<strong>avg.</strong> {{ obj.average_weight }}kg)</p>
             {% endif %}
+            <p class="description"><pre>{{ obj.description }}</pre></p>
+
         </div>
     {% endfor %}
 </div>

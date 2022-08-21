@@ -17,8 +17,13 @@
   <div class="content-box">
     <p class="name wo{{ obj.workout_type }}">{{ obj.name }}</p>
     <p class="wo">{{ obj.program_name }} - {{ obj.program_phase }}</p>
+    <p class="wo">{{ obj.date.date }}</p>
   </div>
-  {% endfor %}
-</div>
+  {% if forloop.counter == 6 %}
+    </div>
+    <div class="justified-row">
+ {% endif %}
+{% endfor %}</div>
 
-{% endblock %}
+  {% endblock %}
+</div>

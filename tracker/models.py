@@ -25,7 +25,7 @@ class Session(models.Model):
 
     description = models.TextField(null=True, blank=True)
     class Meta:
-        ordering = ['date',]
+        ordering = ['-date',]
 
     def __str__(self):
         return '{} {} - {} {}'.format(
