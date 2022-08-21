@@ -1,3 +1,4 @@
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 STRENGTH = '0'
@@ -12,6 +13,8 @@ WORKOUT_TYPES = [
 class Session(models.Model):
     date = models.DateTimeField(
         'workout date', null=True, blank=True)
+    week_order = models.IntegerField(default=1, validators=[MinValueValidator(1),
+                                       MaxValueValidator(7)])
     program_name = models.CharField(max_length=200)
     program_phase = models.CharField(max_length=200)
     name = models.CharField(max_length=200)
