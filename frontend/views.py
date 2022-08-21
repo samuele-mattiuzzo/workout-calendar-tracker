@@ -13,6 +13,13 @@ CONTEXT = {
 }
 
 
+def _get_month(month, year):
+    start = timezone.datetime(year, month, 1)
+    if month == 12:
+        end = timezone.datetime(year, month, 31)
+    else:
+        end = timezone.datetime(year, month + 1, 1) + timezone.timedelta(days=-1)
+    return (start, end)
 
 def _get_week(week_day):
     start, end = _get_week_by_day(week_day)
@@ -58,7 +65,38 @@ def index(request):
     })
     return HttpResponse(template.render(ctx, request))
 
+def index_month(request):
+    # stupid! does not account for years
+    template = loader.get_template('frontend/index_month.html')
+    ctx = CONTEXT.copy()
 
+    month = request.GET.get('month', None)
+    link_current_month = False if month is None else True
+    month = timezone.now().month if month is None else int(month)
+
+    year = timezone.now().year
+    if month < 1:
+        year = year - 1
+        month = 12
+    elif month > 12:
+        year = year + 1
+        month = 1
+    
+    start, end = _get_month(month, year)
+
+    ctx.update({
+        'message': None,
+        'can_edit': request.user.is_authenticated,
+        'link_current_month': link_current_month,
+        'start': _date_to_str_format(start),
+        'end': _date_to_str_format(end),
+        'next_month': int(month) + 1,
+        'previous_month': int(month) - 1,
+        'objects': Session.objects.filter(
+            date__date__gte=start, date__date__lte=end
+        ).order_by('date')
+    })
+    return HttpResponse(template.render(ctx, request))
 
 def add_session(request):
     return redirect('frontend:index')

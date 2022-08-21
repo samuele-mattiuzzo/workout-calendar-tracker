@@ -1,0 +1,24 @@
+{% extends 'frontend/base.html' %} {% block content %}
+<div class="justified-row">
+  <p>viewing from {{ start }} to {{ end }}</p>
+</div>
+<div class="justified-row">
+  <a href="/month?month={{ previous_month }}">Previous month</a>
+  <span>
+    {% if link_current_month %}<a href="/month"
+      ><< view current month >>{% endif %}</a
+    >
+  </span>
+
+  <a href="/month?month={{ next_month }}">Next month</a>
+</div>
+<div class="justified-row">
+  {% for obj in objects %}
+  <div class="content-box">
+    <p class="name wo{{ obj.workout_type }}">{{ obj.name }}</p>
+    <p class="wo">{{ obj.program_name }} - {{ obj.program_phase }}</p>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}
