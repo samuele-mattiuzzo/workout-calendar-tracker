@@ -1,40 +1,33 @@
 from django.db import models
 
-# Create your models here.
-
-STRENGTH = 0
-CONDITIONING = 1
-STRENGTH_EXTRA = 2
-CONDITIONING_EXTRA = 3
-
+STRENGTH = '0'
+CONDITIONING = '1'
+ACTIVE_REST = '2'
 WORKOUT_TYPES = [
     (STRENGTH, 'Strength'),
     (CONDITIONING, 'Conditioning'),
-    (STRENGTH_EXTRA, 'Strength - extra'),
-    (CONDITIONING_EXTRA, 'Conditioning - extra'),
+    (ACTIVE_REST, 'Active rest')
 ]
 
 class Session(models.Model):
     date = models.DateTimeField(
         'workout date', null=True, blank=True)
-    
-    
-    program_name = models.CharField()
-    program_phase = models.CharField()
-    title = models.CharField()
+    program_name = models.CharField(max_length=200)
+    program_phase = models.CharField(max_length=200)
+    name = models.CharField(max_length=200)
+    workout_type = models.CharField(max_length=200, choices=WORKOUT_TYPES, default=ACTIVE_REST)
+    time_start_end = models.CharField(max_length=200, null=True, blank=True)
+    duration = models.CharField(max_length=200, null=True, blank=True)
+    total_sets = models.IntegerField(null=True, blank=True)
+    total_reps = models.IntegerField(null=True, blank=True)
+    average_weight = models.FloatField(null=True, blank=True)
+    total_weight = models.FloatField(null=True, blank=True)
 
-    time_start_end = models.CharField()
-    duration = models.CharField()
-    total_sets = models.IntegerField()
-    total_reps = models.IntegerField()
-    average_weight = models.FloatField()
-    total_weight = models.FloatField()
-
-    description = models.TextField()
+    description = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return '{} {} - {}'.format(
             self.program_name,
             self.program_phase,
-            self.title
+            self.name
         )

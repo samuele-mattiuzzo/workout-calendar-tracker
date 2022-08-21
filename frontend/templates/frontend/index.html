@@ -1,0 +1,8 @@
+{% extends 'frontend/base.html' %} {% block content %} {% for obj in objects %}
+<p>{{ obj }}</p>
+{% endfor %}
+
+<a href="">Current week</a>
+<a href="?week_day={{ next_week_day }}">Next week</a>
+<a href="?week_day={{ previous_week_day }}">Next week</a>
+{% endblock %}
